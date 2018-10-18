@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	UserMapper.xml is the SQL file of the interface UserMapper
+ -->
+<mapper namespace="com.vport.system.mapper.UserMapper">
+	<sql id="selector">
+		select * from user
+	</sql>
+	
+	<select id="findUserByEmailAndPassword" parameterType="User" resultType="User">
+		<include refid="selector"/> 
+		<where>
+			email = #{email}
+			and password = #{password}
+		</where>
+	</select>
+	<select id="findUserByCode" parameterType="String" resultType="User">
+		<include refid="selector"/>
+		<where>
+			code = #{code}
+		</where>
+	</select>
+	
+	
+	<resultMap type="UserWithReward" id="userWithReward">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="birthday" property="birthday"/>
+		<result column="gender" property="gender"/>
+		<result column="height" property="height"/>
+		<result column="weight" property="weight"/>
+		<result column="city" property="city"/>
+		<result column="icon" property="icon"/>
+		<result column="introduction" property="introduction"/>
+		<result column="role" property="role"/>
+		<collection property="rewards" ofType="Reward">
+			<id column="rewardId" property="id"/>
+			<result column="title" property="title"/>
+			<result column="content" property="content"/>
+			<result column="reward_time" property="rewardTime"/>
+		</collection>
+	</resultMap>
+	<select id="findUserWithRewardById" parameterType="Long" resultMap="userWithReward">
+		SELECT u.id,u.name,u.email,u.phone,u.birthday,u.gender,u.height,u.weight,u.city,u.icon,
+		u.introduction,u.role,r.id AS rewardId,r.title,r.content,r.reward_time
+		FROM USER u
+		LEFT JOIN rewards r 
+		ON u.id = r.user_id 
+		WHERE u.id = #{value} 
+	</select>
+	<update id="updateReward" parameterType="Reward">
+		update rewards
+		set title = #{title}, content = #{content}, reward_time = #{rewardTime}, update_time = #{updateTime}
+		where id = #{id} and user_id = #{userId}
+	</update>
+	<delete id="deleteReward" parameterType="Long">
+		delete from rewards
+		where id = #{id}
+	</delete>
+	<insert id="addReward" parameterType="Reward">
+		insert into rewards (user_id,title,content,reward_time,create_time)
+		values (#{userId},#{title},#{content},#{rewardTime},#{createTime})
+	</insert>
+	
+	
+	<select id="findUserByRole" parameterType="Long" resultType="User">
+		select id,name from user
+		where role = #{value};
+	</select>
+	
+	<insert id="insertRecoverCode">
+		insert into recover_code (user_id,code) values(#{userId},#{code})
+	</insert>
+	
+	<select id="findUserByRecoverCode" parameterType="String" resultType="User">
+		select * from user u
+		where u.id = (
+			select rc.user_id 
+			from recover_code rc
+			where rc.code = #{value}
+		) 
+	</select>
+</mapper>
