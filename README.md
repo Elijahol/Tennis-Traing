@@ -93,34 +93,24 @@ http {
 
    - **Step 1 configure Maven project**
 
-     ```
-     Take eclipse as an example. When the decompression is complete, first open apche-main-3.5.2, then open the conf file below the folder and open settings.xml, then change <localRepository>E:\COMP9323_SUB\repository</localRepository>  to the repository path(absolute path). Then open eclipse, modify the workspace code to utf-8 and the jsp code to utf-8, then click Import button, select the existing maven project under maven, and then import vport-parent. Continue to click import button to import system-vport.
-     ```
+     > Take eclipse as an example. When the decompression is complete, first open apche-main-3.5.2, then open the conf file below the folder and open settings.xml, then change <localRepository>E:\COMP9323_SUB\repository</localRepository>  to the repository path(absolute path). Then open eclipse, modify the workspace code to utf-8 and the jsp code to utf-8, then click Import button, select the existing maven project under maven, and then import vport-parent. Continue to click import button to import system-vport.
 
    - **Step 2 Import the SQL script to the database**
 
-     ```
-     Configure the tomcat plugin, click run configuration, import the system-vport project and write Goals as tomcat7:run, then import vport.sql to Mysql, then modify your username and password in jdbc.properties.
-     ```
+     > Configure the tomcat plugin, click run configuration, import the system-vport project and write Goals as tomcat7:run, then import vport.sql to Mysql, then modify your username and password in jdbc.properties.
 
    - **Step 3 Modify buffer path**
 
-     ```
-     Modify path to your cache path in ehcache.xml in jdbc.properties.
-     ```
+     > Modify path to your cache path in ehcache.xml in jdbc.properties.
 
    - **Step 4 Modify the file upload path**
 
-     ```
-     Find the common controller under the controller package, and open the CheckTheFile method to modify the file upload path. 
-     Open CourseController, find the method check the file, and modify the upload path. Find the CustomExceptionResovler under the exception package, modify the exception information log path.
-     ```
+     > Find the common controller under the controller package, and open the CheckTheFile method to modify the file upload path. 
+     > Open CourseController, find the method check the file, and modify the upload path. Find the CustomExceptionResovler under the exception package, modify the exception information log path.
 
    - **Step 5 Run the project**
 
-     ```
-     Start the Nginx and Tomcat server and the project will run in your machine.
-     ```
+     > Start the Nginx and Tomcat server and the project will run in your machine.
 
 
 ## Brief introduction of project
