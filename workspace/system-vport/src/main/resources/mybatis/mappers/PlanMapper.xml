@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vport.system.mapper.PlanMapper">
+	<resultMap type="PlanType" id="planType">
+		<id column="id" property="id"/>
+		<result column="ch_type_name" property="chTypeName"/>
+		<result column="type_name" property="typeName"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="is_parent" property="isParent"/>
+		<result column="unit_name" property="unitName"/>
+		<result column="layer_num" property="layerNum"/>		
+	</resultMap>
+	<select id="selectTypeWithUnit" resultMap="planType">
+		SELECT th.id,th.ch_type_name,th.type_name,th.parent_id,th.is_parent,th.layer_num,u.unit_name 
+		FROM training_hierarchy th LEFT JOIN unit u 
+		ON th.unit_id = u.id 
+		ORDER BY th.id;
+	</select>
+	
+	<insert id="insertNewPlan" parameterType="TrainingPlan">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO training_schema 
+		(chief_trainer_id,class_id,training_time,created,updated,assistant_trainer_id) 
+		VALUES(#{chiefTrainer},#{classId},#{trainingTime},#{created},#{updated},#{assistantTrainer})
+	</insert>
+	
+	<insert id="insertPhysicalDetail" parameterType="PhysicalDetail">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into physical_detail(physical_type,count) values(#{physicalType},#{count})
+	</insert>
+	
+	<insert id="insertPhysicalSchemaDetail">
+		insert into physical_schema_detail values(#{trainingSchenmaId},#{physicalDetailId})
+	</insert>
+	
+	
+	<insert id="insertSkillDetail" parameterType="SkillDetail">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into skill_detail (isLimitedTime,isContinuous,isMoved,isMultiple,groupNum,countNumOfGroup,numOfSuccess,requiredTime,isTarget,isCombined,typeOfSkill)
+		values(#{isLimitedTime},#{isContinuous},#{isMoved},#{isMultiple},#{groupNum},#{countNumOfGroup},#{numOfSuccess},#{requiredTime},#{isTarget},#{isCombined},#{typeOfSkill})
+	</insert>
+	<insert id="insertSkillSchemaDetail">
+		insert into skill_schema_detail values(#{trainingSchenmaId},#{skillDetailId})
+	</insert>
+	<resultMap type="TrainingPlanInfo" id="trainingPlanInfo">
+		<result column="id" property="id"/>
+		<result column="training_time" property="trainingTime"/>
+		<result column="created" property="created"/>
+		<result column="updated" property="updated"/>
+		<result column="chief_trainer_id" property="chiefTrainer"/>
+		<result column="class_id" property="classId"/>
+		<result column="assistant_trainer_id" property="assistantTrainer"/>
+	</resultMap>
+	<select id="selectPlanInfoById" parameterType="Long" resultMap="trainingPlanInfo">
+		select * from training_schema
+		where id = #{value}
+	</select>
+	
+	
+	<resultMap type="PhysicalDetailNonSpecilized" id="physicalDetailNonSpecilized">
+		<result column="ch_type_name" property="typeNameCh"/>
+		<result column="type_name" property="typeName"/>
+		<result column="physical_type" property="physicalType"/>
+		<result column="unit_name" property="unitName"/>
+		<result column="count" property="count"/>
+	</resultMap>
+	<select id="selectWarmUpBySchemaId" parameterType="Long" resultMap="physicalDetailNonSpecilized">
+		SELECT type_name,ch_type_name,unit_name,COUNT,physical_type 
+		FROM physical_schema_detail psd, physical_detail pd,training_hierarchy th, unit u 
+		WHERE psd.physical_detail_id = pd.id 
+		AND pd.physical_type = th.id
+		AND u.id = th.unit_id
+		AND pd.physical_type &lt;=14
+		AND psd.training_schenma_id = #{value}
+	</select>
+	<select id="selectRelaxiationBySchemaId" parameterType="Long" resultMap="physicalDetailNonSpecilized">
+		SELECT type_name,ch_type_name,unit_name,COUNT FROM physical_schema_detail psd, physical_detail pd,training_hierarchy th, unit u 
+		WHERE psd.training_schenma_id = #{value} 
+		AND psd.physical_detail_id = pd.id 
+		AND pd.physical_type = th.id
+		AND u.id = th.unit_id
+		AND pd.physical_type BETWEEN 20 AND 22;
+	</select>
+	
+	<resultMap type="PhysicalDetailSpecilized" id="physicalDetailSpecilized">
+		<result column="parentNameCh" property="parentNameCh"/>
+		<result column="typeNameCh" property="typeNameCh"/>
+		<result column="parentName" property="parentName"/>
+		<result column="typeName" property="typeName"/>
+		<result column="physicalType" property="physicalType"/>
+		<result column="unit_name" property="unitName"/>
+		<result column="count" property="count"/>
+	</resultMap>
+	<select id="selectSpecilizedBySchemaId" parameterType="Long" resultMap="physicalDetailSpecilized">
+		SELECT h.ch_type_name AS parentNameCh, h.type_name AS parentName,s.ch_type_name AS typeNameCh,s.type_name AS typeName,s.physical_type AS physicalType, s.count,s.unit_name FROM 
+		((SELECT th.ch_type_name,th.type_name,u.unit_name,pd.count,th.parent_id,pd.physical_type 
+		FROM physical_schema_detail psd, physical_detail pd,training_hierarchy th, unit u 
+		WHERE psd.training_schenma_id = #{value} 
+		AND psd.physical_detail_id = pd.id 
+		AND pd.physical_type = th.id
+		AND u.id = th.unit_id
+		AND pd.physical_type &gt;= 23)s 
+		INNER JOIN training_hierarchy h ON s.parent_id = h.id)
+	</select>
+	
+	
+	<resultMap type="SkillDetailWithFullInfo" id="skillDetailWithFullInfo">
+		<result column="isLimitedTime" property="isLimitedTime"/>
+		<result column="isContinuous" property="isContinuous"/>
+		<result column="isMoved" property="isMoved"/>
+		<result column="isMultiple" property="isMultiple"/>
+		<result column="groupNum" property="groupNum"/>
+		<result column="countNumOfGroup" property="countNumOfGroup"/>
+		<result column="numOfSuccess" property="numOfSuccess"/>
+		<result column="requiredTime" property="requiredTime"/>
+		<result column="isCombined" property="isCombined"/>
+		<result column="isTarget" property="isTarget"/>
+		<result column="typeOfSkill" property="typeOfSkill"/>
+		<result column="typeName" property="typeName"/>
+		<result column="parentName" property="parentName"/>
+		<result column="typeNameCh" property="typeNameCh"/>
+		<result column="parentNameCh" property="parentNameCh"/>
+	</resultMap>
+	<select id="selectSkillDetailWithFullInfo" parameterType="Long" resultMap="skillDetailWithFullInfo">
+		SELECT s.isLimitedTime, s.isContinuous,s.isMoved,s.isMultiple,s.groupNum,s.countNumOfGroup,
+		s.numOfSuccess,s.requiredTime,s.isTarget,s.isCombined,s.typeOfSkill,s.typeName,s.typeNameCh,h.ch_type_name AS parentNameCh,h.type_name AS parentName
+		FROM
+		((SELECT sd.isLimitedTime, sd.isContinuous,sd.isMoved,sd.isMultiple,sd.groupNum,sd.countNumOfGroup,
+		sd.numOfSuccess,sd.requiredTime,sd.isTarget,sd.isCombined,sd.typeOfSkill,th.type_name AS typeName,th.ch_type_name AS typeNameCh,th.parent_id
+		FROM skill_schema_detail ssd, skill_detail sd,training_hierarchy th
+		WHERE ssd.skill_detail_id = sd.id 
+		AND ssd.training_schema_id = #{value}
+		AND th.id = sd.typeOfSkill)s INNER JOIN training_hierarchy h ON h.id = s.parent_id)
+	</select>
+	
+	
+	<select id="findSchemaTrainingTimeByClassId" parameterType="Long" resultType="Date">
+		SELECT training_time FROM training_schema WHERE class_id = #{value}
+	</select>
+	
+	<select id="findFuturePlan" parameterType="Long" resultType="TrainingPlan">
+		SELECT id, class_id as classId,training_time as trainingTime FROM training_schema
+		WHERE class_id = #{value}
+		AND training_time >=NOW()
+		ORDER BY training_time
+	
+	</select>
+</mapper>
