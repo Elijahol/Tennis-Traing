@@ -75,12 +75,12 @@ public class UserController {
      * @param user
      * @param model
      * @return
-     * @throws MessageException
      */
     @RequestMapping(value="register",method = RequestMethod.POST)
-    public String register(User user,Model model) throws MessageException{
+    public String register(User user,Model model){
         try{
             userService.register(user);
+            session.setAttribute("msg", "Congratulations! You've successfully created your account, please check your email to activate your account.");
             return "redirect:/rest/page/login";
         }catch(Exception e){
             model.addAttribute("msg","register fialed");

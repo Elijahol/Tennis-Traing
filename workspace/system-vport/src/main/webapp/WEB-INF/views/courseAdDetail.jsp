@@ -112,22 +112,22 @@
                                         </div>
                                         <!-- Facebook -->
                                         <div class="share">
-										    <a href="http://www.facebook.com/sharer.php?u=http://www.vport.com/rest/course/showOpenCourseDetail?classId=13" target="_blank">
+										    <a href="http://www.facebook.com/sharer.php?u=http://www.vport.com/rest/course/showOpenCourseDetail?classId=${course.trainingClass.classId }" target="_blank">
 										        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
 										    </a>
 										    <!-- Google+ -->
-										    <a href="https://plus.google.com/share?url=https://simplesharebuttons.com" target="_blank">
+										    <a href="https://plus.google.com/share?url=http://www.vport.com/rest/course/showOpenCourseDetail?classId=${course.trainingClass.classId }" target="_blank">
 										        <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
 										    </a>
 										
 										
 										    <!-- Tumblr-->
-										    <a href="http://www.tumblr.com/share/link?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
+										    <a href="http://www.tumblr.com/share/link?url=http://www.vport.com/rest/course/showOpenCourseDetail?classId=${course.trainingClass.classId };title=Vport" target="_blank">
 										        <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
 										    </a>
 										
 										    <!-- Twitter -->
-										    <a href="https://twitter.com/share?url=http://www.vport.com/rest/course/showOpenCourseDetail?classId=13;text=Vport;hashtags=NewCourse">
+										    <a href="https://twitter.com/share?url=http://www.vport.com/rest/course/showOpenCourseDetail?classId=${course.trainingClass.classId };text=Vport;hashtags=NewCourse">
 										        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
 										    </a>
 									    </div>

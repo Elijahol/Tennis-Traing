@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmail(User user) {
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo("email", user.getEmail());
+        List<User> list = userMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
         return userMapper.selectByExample(example).get(0);
     }
     /**

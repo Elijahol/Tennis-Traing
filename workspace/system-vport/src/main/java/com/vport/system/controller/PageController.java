@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +38,8 @@ public class PageController {
     private UserService userService;
     
     @RequestMapping(value = "{pageName}", method = RequestMethod.GET)
-    public String toPage(@PathVariable("pageName") String pageName,HttpServletRequest request,HttpServletResponse response) throws IOException{
+    public String toPage(@PathVariable("pageName") String pageName,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException{
+        
         if ("login".equals(pageName)) {
             Cookie[] cookies = request.getCookies();
             Cookie sessionUserCookie = CookieUtils.findCookie(cookies, "SESSION_USER");
@@ -59,7 +61,13 @@ public class PageController {
                     }
                 }
             }
+            if (request.getSession().getAttribute("msg") != null) {
+                model.addAttribute("msg", (String)request.getSession().getAttribute("msg"));
+                request.getSession().setAttribute("msg", null);
+            }
+            
         }
+        
         return pageName;
     }
 }
