@@ -99,12 +99,6 @@ http {
 
    First unzip the file and configure the Nginx, then put the workspace into Eclipse or IntelliJ IDEA and run the project.
 
-## Built With
-
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-- [Maven](https://maven.apache.org/) - Dependency Management
-- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
 ## Brief introduction of project
 
 In this project, we use `Maven` to manage related jar files.
@@ -113,33 +107,58 @@ First we create a `pom project` to be the version management center of the relev
 
 In `system-vport` project, we have adopted the MVC architecture which using springMVC as the Controller and the spring framework as the container for managing the dependencies of each layer and the transaction. Besides, we use mybatis as the DAO layer to be responsible for interacting with the database.
 
-- From the perspective of the project level, the project can be roughly divided into four modules:
+- From the perspective of the project level, the project can be roughly divided into **4** modules:
 
-  1. Interceptor (responsible for intercepting all requests sent from the browser, according to business requirements)
+  1. **Interceptor**
 
-  2. The controller accepts the request sent by the front end and calls the logical layer to invoke the operation to return relevant data or view to the front end.
+     responsible for intercepting all requests sent from the browser, according to business requirements.
 
-  3. service (call dynamic mapper, complete the addition, deletion and change of the database, and complete the relevant business operations)
+  2. **Controller** 
 
-  4. mapper (mapper interacts with the database)
+     accepts the request sent by the front end and calls the logical layer to invoke the operation to return relevant data or view to the front end.
 
-- From the function point of view, the project can be roughly divided into 4 modules:
+  3. **service**
 
-  1. User account module
+     Revokes the dynamic mappers. Complete the addition, deletion and change of the database, and in charge of the relevant business operations.
 
-  2. Course Management
+  4. **mapper**
 
-  3. Training data and evaluation modules
+     Interacts with the database.
 
-  4. Public module (responsible for handling functions shared by coaches and learners)
+- From the function point of view, the project can be divided into **4** modules:
 
-## Versioning
+  1. **User account module**
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+     handles requests for user account like editing private information, viewing own courses.
 
-## Authors
+  2. **Course management module**
 
-- **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+     Manage courses related function, like getting class information for coaches and getting timetable for students.
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+  3. **Training data and evaluation module**
 
+     records and manages the data from each training and shows related data to coaches for further evaluation of each students.
+
+  4. **Public module**
+
+     responsible for handling functions shared by coaches and learners
+
+## Version
+
+​	Jdk 1.8
+
+​	Maven 3.5.2
+
+​	Spring 4.1.3
+
+​	Mybatis 3.2.8
+
+​	Tomcat 7
+
+## Contribution
+
+- Siyu Wang             [z5132696@ad.unsw.edu.au](mailto:z5132696@ad.unsw.edu.au)
+- Yixuan Lin             [z5089927@ad.unsw.edu.au](mailto:z5089927@ad.unsw.edu.au)
+- Liling Zhang          [z5098557@ad.unsw.edu.au](mailto:z5098557@ad.unsw.edu.au)
+- Chaoyi Zhou         [z5129110@ad.unsw.edu.au](mailto:z5129110@ad.unsw.edu.au)
+- Jiaqi Wang             [z5110175@ad.unsw.edu.au](mailto:z5110175@ad.unsw.edu.au)
