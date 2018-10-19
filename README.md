@@ -89,7 +89,7 @@ http {
 
 ```
 
-## Running the tests
+## How to run the project
 
 1. **war file**
 
@@ -99,19 +99,39 @@ http {
 
    First unzip the file and configure the Nginx, then put the workspace into Eclipse or IntelliJ IDEA and run the project.
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 - [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
 - [Maven](https://maven.apache.org/) - Dependency Management
 - [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
+## Brief introduction of project
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+In this project, we use `Maven` to manage related jar files.
+
+First we create a `pom project` to be the version management center of the relevant jar package plugin and the tomcat server. And then let the `system-port` maven project to inherit the parent project. The benefit of this is that there is a centrality that can centrally manage the relevant jar packages and plugin versions and contribute to modular development.
+
+In `system-vport` project, we have adopted the MVC architecture which using springMVC as the Controller and the spring framework as the container for managing the dependencies of each layer and the transaction. Besides, we use mybatis as the DAO layer to be responsible for interacting with the database.
+
+- From the perspective of the project level, the project can be roughly divided into four modules:
+
+  1. Interceptor (responsible for intercepting all requests sent from the browser, according to business requirements)
+
+  2. The controller accepts the request sent by the front end and calls the logical layer to invoke the operation to return relevant data or view to the front end.
+
+  3. service (call dynamic mapper, complete the addition, deletion and change of the database, and complete the relevant business operations)
+
+  4. mapper (mapper interacts with the database)
+
+- From the function point of view, the project can be roughly divided into 4 modules:
+
+  1. User account module
+
+  2. Course Management
+
+  3. Training data and evaluation modules
+
+  4. Public module (responsible for handling functions shared by coaches and learners)
 
 ## Versioning
 
