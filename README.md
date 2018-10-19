@@ -19,10 +19,6 @@ What things you need to install the software and how to install them
 
 3. [Eclipse](https://www.eclipse.org/) or [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
-```
-Give examples
-```
-
 ### Installing
 
 1. Bind `www.vport.com` and `image.vport.com` to `localhost`
