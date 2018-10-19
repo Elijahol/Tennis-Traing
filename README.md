@@ -23,10 +23,6 @@ What things you need to install the software and how to install them
 
 1. Bind `www.vport.com` and `image.vport.com` to `localhost`
 
-```
-Give the example
-```
-
 2. Configure Nginx(version 1.12.2)
    - Listen to port number 80 and handle the requests from domain name `www.vport.com` to Apache server `http://127.0.0.1:8081`
    - In order to manage the static resource like image, it needs to handle the requests from `image.vport.com` to your local disk path like `E:\\comp9323_pro\\file-upload`
@@ -102,6 +98,12 @@ In this project, we use `Maven` to manage related jar files.
 First we create a `pom project` to be the version management center of the relevant jar package plugin and the tomcat server. And then let the `system-port` maven project to inherit the parent project. The benefit of this is that there is a centrality that can centrally manage the relevant jar packages and plugin versions and contribute to modular development.
 
 In `system-vport` project, we have adopted the MVC architecture which using springMVC as the Controller and the spring framework as the container for managing the dependencies of each layer and the transaction. Besides, we use mybatis as the DAO layer to be responsible for interacting with the database.
+
+There are 3 packages in the system which are called `Utils`, `Bean` and `POJO` respectively.
+
+1. `Utils` customizes tools such as generating UUIDs, sending emails, encrypting, etc., it can help improve code reusability
+2. The java class in `POJO` is the mapping between java objects and database tables.
+3. The java class in the `Bean` is used to further encapsulate the classes inside the pojo to form the data format needed by the front end. It does not directly map to the database.
 
 - From the perspective of the project level, the project can be roughly divided into **4** modules:
 
