@@ -6,14 +6,20 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
-	 
+<!-- 
+	Config of the spring and mybatis
+ -->	 
+ 	<!-- config the session factory of mybatis
+ 			1. inject the data source
+ 			2. config the pathes of the pojo objects, mybatis-config.xml and the mapper.xml
+ 	-->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
 		<property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"/>
 		<property name="typeAliasesPackage" value="com.vport.system.pojo"/>
 	</bean>
-	<!-- mapper接口扫描器 -->
+	<!-- mapper interfaces scanner -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.vport.system.mapper"/>
 	</bean>

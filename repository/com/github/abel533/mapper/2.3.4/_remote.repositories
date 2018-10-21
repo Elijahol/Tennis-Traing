@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Aug 28 13:30:10 AEST 2018
+mapper-2.3.4.pom>nexus=
+mapper-2.3.4.jar>nexus=
+mapper-2.3.4-sources.jar>nexus=
