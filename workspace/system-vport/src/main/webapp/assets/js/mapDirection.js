@@ -4,16 +4,16 @@ $(document).ready(function(){
     var type = "transit";
     var map;
     var destination = $("#addr").val();
-//    function getCurrLocation() {
-//        if (navigator.geolocation){
-//            navigator.geolocation.getCurrentPosition(showPosition);
-//        }
-//    }
-//    function showPosition(position){
-//        currLat = position.coords.latitude;
-//        currLng = position.coords.longitude;
-//        getMap();
-//    }
+    function getCurrLocation() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+    }
+    function showPosition(position){
+        currLat = position.coords.latitude;
+        currLng = position.coords.longitude;
+        getMap();
+    }
     function getMap(){
         map = new GMaps({
             el:'#location',
@@ -33,7 +33,7 @@ $(document).ready(function(){
             draggable:true
         });
     }
-    getMap();
+    getCurrLocation();
     $(".nav-item").click(function () {
         $(".nav-item a").removeClass("show active");
         $(this).children("a").addClass("show active");
@@ -46,7 +46,7 @@ $(document).ready(function(){
                                     "<div class='card-box'>" +
                                     "<div id='direction'></div>" +
                                 "</div>");
-        getMap();
+        getCurrLocation();
     });
 
 

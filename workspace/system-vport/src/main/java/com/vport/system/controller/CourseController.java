@@ -53,6 +53,7 @@ import com.vport.system.utils.UUIDUtils;
  */
 @Controller
 @RequestMapping("course")
+@Scope(value="prototype")
 public class CourseController {
     
     private HttpServletRequest request;
